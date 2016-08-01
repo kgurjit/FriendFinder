@@ -19,10 +19,15 @@ $(document).ready(function(){
       $("#name").val('');
       $("#photo").val('');
       //reset all select boxes
-      $.each($("select"), function(idx,select){
-       var ops = $(select).find("option");
-       ops.eq(0).attr('selected','selected');
+      $.each($("#questions select"), function(idx,s){
+       $(s).val('');
      });
+    };
+
+    var showErrMsg = function(msg){
+      var modal = $("#errModal");
+      modal.find("#errMsg").eq(0).html(msg);
+      modal.modal('toggle');
     };
 
     $("#submit").on("click", function(){
@@ -30,7 +35,7 @@ $(document).ready(function(){
       var photo = $.trim($("#photo").val());
 
       if(name === '' || photo === '') {
-        alert('Please fill all fields');
+        showErrMsg("Please fill all fields");
         return;
       }
 
@@ -41,7 +46,7 @@ $(document).ready(function(){
       for(var x=1; x<=questions.length;x++){
           var ans = $("#q_" + x).val();
           if(ans === '') {
-            alert('Please fill all fields');
+            showErrMsg("Please fill all fields");
             allQuestionsAnswered = false;
             break;
           }
@@ -57,14 +62,14 @@ $(document).ready(function(){
             data: JSON.stringify(data),
             success: function(match) {
               if(match === null) {
-                alert("No matches found. You're the first one on the system.");
+                showErrMsg("No matches found. You're the first one on the system.");
                 clearFields();
               } else {
+                clearFields();
                 var modal = $("#myModal");
                 modal.find("#matchName").eq(0).html(match.name);
                 modal.find("#matchImg").eq(0).attr('src', match.photo);
                 modal.modal('toggle');
-                clearFields();
               }
             }
         });
