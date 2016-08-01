@@ -15,6 +15,10 @@ var saveFriend = function(friend) {
 	console.log('saved ' + friend.scores);
 };
 
+exports.clearAll = function(){
+	allFriends = [];
+};
+
 exports.saveAndFindFriend = function(friend){
 	var scores = friend.scores;
 	var lastDiff = 0;

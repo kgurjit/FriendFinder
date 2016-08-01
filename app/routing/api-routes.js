@@ -10,4 +10,9 @@ module.exports = function(app){
         console.log('Matched friend: ' + match);
         res.json(match);
     });
+
+    app.get('/clearall', function(req, res){
+    	friendsApi.clearAll();
+    	res.send('Done');
+    });
 }

@@ -13,5 +13,7 @@ app.use(bodyParser.json());
 require('./app/routing/api-routes')(app);
 require('./app/routing/html-routes')(app);
 
-app.listen(3000, function () {
+var port = process.env.PORT || 8080;
+
+app.listen(port, function () {
 });
