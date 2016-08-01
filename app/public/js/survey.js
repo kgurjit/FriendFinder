@@ -17,23 +17,52 @@ $(document).ready(function(){
 
     $("#submit").on("click", function(){
       var name = $.trim($("#name").val());
-      var phone = $.trim($("#photo").val());
+      var photo = $.trim($("#photo").val());
 
-      if(name === '' || phone === '') {
+      if(name === '' || photo === '') {
         alert('Please fill all fields');
         return;
       }
+
+      var data = {'name': name, 'photo': photo};
+
       var allQuestionsAnswered = true;
+      var scores = [];
       for(var x=1; x<=questions.length;x++){
-          if($("#q_" + x).val() === '') {
+          var ans = $("#q_" + x).val();
+          if(ans === '') {
             alert('Please fill all fields');
             allQuestionsAnswered = false;
             break;
           }
+          scores.push(ans);
       }
-
+      data['scores'] = scores;
       if(allQuestionsAnswered) {
-        alert('Good to go');
+        $.ajax({
+            type: "POST",
+            url: "/api/friends",
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(match) {
+              if(match === null) {
+                alert('No match found');
+              } else {
+                var modal = $("#myModal");
+                modal.find("#matchName").eq(0).html(match.name);
+                modal.find("#matchImg").eq(0).attr('src', match.photo);
+                modal.modal('toggle');
+                $("#name").val('');
+                $("#photo").val('');
+                //reset all select boxes
+                $.each($("select"), function(idx,select){
+                 var ops = $(select).find("option");
+                 ops.eq(0).attr('selected','selected');
+               });
+              }
+            }
+        });
       }
     });
 });

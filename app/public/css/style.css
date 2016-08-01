@@ -1154,3 +1154,11 @@ figure {
 h3.section {
   margin-top: 20px;
 }
+
+label.field-title {
+  margin-top: 20px;
+}
+
+img#matchImg {
+    width: 80%;
+}
