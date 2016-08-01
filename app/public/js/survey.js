@@ -15,6 +15,16 @@ $(document).ready(function(){
     var quesHtml = Mustache.render($("#quesTemplate").html(), {questions: questions});
     $("#questions").html(quesHtml);
 
+    var clearFields = function(){
+      $("#name").val('');
+      $("#photo").val('');
+      //reset all select boxes
+      $.each($("select"), function(idx,select){
+       var ops = $(select).find("option");
+       ops.eq(0).attr('selected','selected');
+     });
+    };
+
     $("#submit").on("click", function(){
       var name = $.trim($("#name").val());
       var photo = $.trim($("#photo").val());
@@ -47,19 +57,14 @@ $(document).ready(function(){
             data: JSON.stringify(data),
             success: function(match) {
               if(match === null) {
-                alert('No match found');
+                alert("No matches found. You're the first one on the system.");
+                clearFields();
               } else {
                 var modal = $("#myModal");
                 modal.find("#matchName").eq(0).html(match.name);
                 modal.find("#matchImg").eq(0).attr('src', match.photo);
                 modal.modal('toggle');
-                $("#name").val('');
-                $("#photo").val('');
-                //reset all select boxes
-                $.each($("select"), function(idx,select){
-                 var ops = $(select).find("option");
-                 ops.eq(0).attr('selected','selected');
-               });
+                clearFields();
               }
             }
         });
