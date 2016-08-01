@@ -2,7 +2,7 @@ var friendsApi = require('../data/friends');
 
 module.exports = function(app){
     app.get('/api/friends', function(req, res){
-        res.json({msg: 'Shukar'});
+        res.json(friendsApi.getAllFriends());
     });
 
     app.post('/api/friends', function(req, res){

@@ -15,6 +15,10 @@ var saveFriend = function(friend) {
 	console.log('saved ' + friend.scores);
 };
 
+exports.getAllFriends = function(){
+	return allFriends;
+};
+
 exports.clearAll = function(){
 	allFriends = [];
 };
